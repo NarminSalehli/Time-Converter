@@ -12,6 +12,8 @@ struct ContentView: View {
     @State private var inputUnits = 1
     @State private var outputUnits = 2
     
+    @FocusState private var unitIsFocused: Bool
+    
     let timeUnits = ["Seconds", "Minutes", "Hours", "Days"]
     
     var result: Double {
@@ -37,6 +39,7 @@ struct ContentView: View {
                 Section {
                     TextField("Enter a number", value: $enteredNumber, format: .number)
                         .keyboardType(.decimalPad)
+                        .focused($unitIsFocused)
                 }
                 
                 Section("SELECT INPUT UNIT") {
@@ -62,6 +65,13 @@ struct ContentView: View {
                 }
             }
             .navigationTitle("Time Converter")
+            .toolbar {
+                if unitIsFocused {
+                    Button("Done") {
+                        unitIsFocused = false
+                    }
+                }
+            }
         }
     }
 }
